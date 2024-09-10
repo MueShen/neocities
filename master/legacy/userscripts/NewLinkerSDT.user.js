@@ -1,0 +1,252 @@
+// ==UserScript==
+// @name         Linker SDT
+// @namespace    http://tishka.xyz/sdt
+// @version      1.7.4
+// @description  updated linker
+// @author       Tishka
+// @updateURL    https://tishka.xyz/sdt/download/linker.user.js
+// @downloadURL  https://tishka.xyz/sdt/download/linker.user.js
+// @match        https://my.livechatinc.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=livechatinc.com
+// @require 	 https://greasyfork.org/scripts/28536-gm-config/code/GM_config.js?version=184529
+// @grant       GM.getValue
+// @grant       GM_getValue
+// @grant       GM.setValue
+// @grant       GM_setValue
+// ==/UserScript==
+
+// переписано все это чудо
+// настройки на ctrl + /
+// изменен селектор группы проекта
+// легзо добавлен цвет
+// временный фикс легзо
+// смена адреса для всех бэков
+// фикс для линии спорта
+// +starda отдельная ссылка
+// лайвчат обновил селекторы
+// обновлены ссылки на внутренние
+// фикс селектора архивы
+// фикс селектора ссылок
+(async function () {
+    'use strict';
+    const copyText = (text, elem) => {
+    try {
+      setTimeout(async () => console.log(
+        await window.navigator.clipboard.writeText(text)), 100)
+    } catch (e) {
+      alert("Повтори попытку")
+    }
+  }
+  /*
+
+   let response = await fetch('/article/fetch/post/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(user)
+});
+   */
+    GM_config.init(
+        {
+            'id': 'MyConfig', // The id used for this instance of GM_config
+            'title': 'Настройки скрипта',
+            'fields': // Fields object
+            {
+                'colors': // This is the id of the field
+                {
+                    'label': 'Подсветка чата(верхняя строка)', // Appears next to field
+                    'type': 'checkbox', // Makes this setting a text field
+                    'default': 'true' // Default value if user doesn't change it
+                },
+                'emailLinks': // This is the id of the field
+                {
+                    'label': 'Ссылка вместо почты или телефона в правом меню', // Appears next to field
+                    'type': 'checkbox', // Makes this setting a text field
+                    'default': '1' // Default value if user doesn't change it
+                },
+                'emailChatLinks': // This is the id of the field
+                {
+                    'label': 'Ссылка вместо email адресов в чате ', // Appears next to field
+                    'type': 'checkbox', // Makes this setting a text field
+                    'default': '1' // Default value if user doesn't change it
+                },
+                'highlightIfMobile': // This is the id of the field
+                {
+                    'label': 'Подсветка при использовании телефона ', // Appears next to field
+                    'type': 'checkbox', // Makes this setting a text field
+                    'default': 'false' // Default value if user doesn't change it
+                },
+            }
+        });
+    //
+    let isColorsEnabled = GM_config.get("colors");
+    let isEmailLinksEnabled = GM_config.get("emailLinks");
+    let isEmailChatLinksEnabled = GM_config.get("emailChatLinks");
+    let isMobileHighlightEnable = GM_config.get("highlightIfMobile");
+    let lastChatId = "";
+    const handleKeyboard = event => {
+        if (event.key === '/' && event.ctrlKey) GM_config.open();
+        if (event.key === '.' && event.ctrlKey) GM_config.open();
+    }
+    document.addEventListener('keyup', handleKeyboard);
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    navigation.addEventListener("navigate", linker);
+    async function linker(){
+        console.log("working...");
+        await sleep(100);
+        const generalInfoSelector = ".css-mjplbw"
+        const chatEmailSelector = ".lc-Typography-module__paragraph-md___UGoqq.css-w2ducz.fs-mask"; // селектор почты/телефона
+        const chatProjectGroupSelector = ".css-1s5f4dg"; // селектор названия проекта в чатах
+        const archiveProjectGroupSelector = ".css-1gszjvl"; // селектор названия проекта в архивах
+        const messagesListSelector = ".css-1hdsu9g" // селектор блока, в котором чат
+        const chatBgSelector = ".css-djph6g"; // селектор верхнего блока, который будет подсвечен
+        let projectGroupSelector; // здесь будет селектор из верхних двух в зависимости от текущей страницы
+
+
+        (function(){
+        const jiraLink = document.createElement("a")
+        jiraLink.textContent = "Jira - посмотреть запросы"
+        jiraLink.classList.add("jira_link");
+        jiraLink.id = "1"
+        if(window.location.href.includes("archives")){
+        const copyEmail = document.createElement("img")
+        copyEmail.src = "https://cdn-icons-png.flaticon.com/512/126/126498.png"
+        copyEmail.style.cssText = "width:20px; cursor:pointer; margin-top:10px;"
+        copyEmail.classList.add("copy_email");
+        copyEmail.addEventListener("click", ()=>{
+          copyText(document.querySelector(chatEmailSelector).innerText)
+        })
+        document.querySelector(".css-hzukz5").style.cssText = "display:flex; flex-direction: column;"
+        if(!document.querySelector(".copy_email")){
+           document.querySelector(".css-hzukz5").insertBefore(copyEmail, document.querySelector(".css-hzukz5").children[1])
+        }
+        }
+        const generalInfo = document.querySelector(generalInfoSelector)
+        const link = document.querySelector("a.jira_link")
+        const mail = document.querySelector(chatEmailSelector)
+        console.log(mail)
+        if (!document.querySelector("a.jira_link")) {
+            if(mail!=null)
+              generalInfo?.insertBefore(jiraLink, generalInfo.children[2])
+
+        }else{
+          if(mail==null){
+            generalInfo.removeChild(generalInfo.childNodes[1])
+            return
+          }
+           link.href = `https://supdeskt.atlassian.net/servicedesk/customer/user/requests?filter=${mail.innerText}&page=1&reporter=org-1&statuses=closed&statuses=open`
+           link.style.marginTop = "5px"
+        }})()
+
+
+        const project = () => {
+            let currentProjectName = projectNameElem.innerText.split(" ")[0].toLowerCase();
+            if (currentProjectName != "sport")
+                return currentProjectName
+            const projectNameMessage = Array.from(document.querySelectorAll(`[data-testid="supervisor-message"]`))
+            const projectNameMessages = projectNameMessage.map((item) => item.innerText).join("").toLowerCase()
+            const keywords = [{ name: "fresh", calls: ["фреш", "fresh"] }, { name: "volna", calls: ["волна", "volna"] }, { name: "jet", calls: ["джет", "jet"] }, { name: "rox", calls: ["рокс", "rox"] }, { name: "izzi", calls: ["izii", "иззи"] }, { name: "legzo", calls: ["легзо", "legzo"] }, { name: "starda", calls: ["старда", "starda"] }, { name: "drip", calls: ["дрип", "drip"] }, { name: "sol", calls: ["сол", "sol"] }];
+            for (let keyword of keywords) {
+                for (let key of keyword.calls) {
+                    if (projectNameMessages?.includes(key)) {
+                        currentProjectName = keyword.name;
+                        return currentProjectName
+                    }
+                }
+            }
+        }
+
+        if (window.location.href.match(/chats/)) {
+            projectGroupSelector = chatProjectGroupSelector; // если мы на странице чатов
+        }
+        else if (window.location.href.match(/archives/)) {
+            projectGroupSelector = archiveProjectGroupSelector; // если мы на странице архивов
+        }
+
+        let chatEmailElem = document.querySelector(chatEmailSelector);
+        let projectNameElem = document.querySelector(projectGroupSelector);
+        if (chatEmailElem && projectNameElem && isEmailLinksEnabled) {
+            // если найден адрес и название проекта
+            if (document.getElementById("enhancerLinkElem")) {
+                return;
+            }
+
+            let email = chatEmailElem.innerText;
+            let emailLink;
+            if (email.charAt(0) == "+") {
+                emailLink = `https://admin.crimson.${project()}.prd.maxbit.private/admin/players/find_user?filters[phone_number]=${email}&commit=Найти'`
+            }
+            else {
+                emailLink = `https://admin.crimson.${project()}.prd.maxbit.private/admin/players/find_user?filters[id_or_email]=${email}&commit=Найти'`
+
+            }
+            let fullLinkElem = `<a id="enhancerLinkElem" target="_blank" href="${emailLink}">${email}</a>`;
+
+            document.querySelector(chatEmailSelector).innerHTML = fullLinkElem;
+        }
+        // скипаем, если найден элемент ссылки
+
+
+        if (projectNameElem && isEmailChatLinksEnabled) {
+            // все ссылки mailto заменяем на ссылку в бэ
+            let linksMail = document.querySelectorAll(`a[href^="mailto:"]`);
+            if (linksMail) {
+                for (let value of linksMail) {
+                    value.href = `https://admin.crimson.${project()}.prd.maxbit.private/admin/players/find_user?filters[id_or_email]=${value.href.split("mailto:")[1]}&commit=Найти'`;
+                }
+            }
+        }
+        if (projectNameElem && isColorsEnabled) {
+            //подсветка в зависимости от проекта
+            let colorProjectName = projectNameElem.innerText.split(" ")[0].toLowerCase();
+            const colors = {
+                legzo: "rgba(53, 60, 113, 50%)",
+                izzi: "rgb(58 145 183 / 50%)",
+                jet: "rgb(89 9 227 / 50%)",
+                sol: "rgb(253 153 10 / 50%)",
+                fresh: "rgb(10 250 110 / 50%)",
+                rox: "rgb(255 29 0 / 50%)",
+                volna: "rgb(27 91 255 / 50%)",
+                starda: "rgb(200, 5, 34 / 80%)"
+            };
+            let chatBgElem = document.querySelector(chatBgSelector);
+            if (chatBgElem) {
+                chatBgElem.style.backgroundColor = colors[colorProjectName];
+            }
+        }
+        if (isMobileHighlightEnable) {
+            if (window.location.href.match(/chats/) || window.location.href.match(/archives/)) {
+
+                const datablocksSelector = ".css-1hak7ay";
+                const useragentElemSelector = ".css-osp6nc";
+                let useragentElem;
+                let blocks = document.querySelectorAll(datablocksSelector);
+                if (blocks) {
+                    for (let value of blocks) {
+                        if (value.innerText.match("User agent")) useragentElem = value.querySelector(useragentElemSelector);
+                    }
+                }
+                const osElemSelector = ".css-osp6nc";
+                const mobileRegex = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i;
+                function isMobile(useragent) {
+                    return useragent.match(mobileRegex) ? true : false;
+                }
+                if (useragentElem) {
+                    // console.log(`Мобильный:${isMobile(useragentElem.innerText)}`);
+                    // console.log(useragentElem.innerText);
+                    let isBadged = document.getElementById("enhancerMobileUserBadge");
+                    if (isMobile(useragentElem.innerText) && !isBadged) {
+                        let elem = document.querySelector(".fs-mask.css-128nwuf");
+                        if (elem) {
+                            elem.innerHTML += `<span id="enhancerMobileUserBadge" style="background-color:red;color:white;padding:4px 8px; text-align:center;border-radius:5px;">MOBILE</span>`;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+})();

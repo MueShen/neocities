@@ -1,0 +1,12 @@
+.content {
+    margin-top:11vh;
+    margin-right:1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .blogcenter {
+    background-color: rgb(207, 207, 207);
+    width: 74%;
+  }
