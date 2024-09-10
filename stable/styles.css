@@ -1,12 +1,50 @@
-.content {
-    margin-top:11vh;
-    margin-right:1%;
-    display: flex;
+.body{
+  padding:0px;
+}
+.blog_container {
+    position: absolute;
+    top: 15vh;
+    left:10%;
+    width: 77.8%;
+    min-height: 80%;
+    border-style: solid;
+    margin-left: 3px;
+    margin-right: 3px;
+
+    display: block;
     align-items: center;
     justify-content: center;
+    padding:1%;
   }
-  
+ 
+.left_container {
+  position: absolute;
+  left:0%;
+  margin-right:3px;
+  top: 15vh;
+  width: 9.9%;
+  padding: 0px;
+  border-style: solid;
+}
+
+.right_container {
+  position: absolute;
+  left:90%;
+  margin-left: 3px;
+  top: 15vh;
+  width: 9.9%;
+  padding: 0px;
+  border-style: solid;
+  line-height: 250%;
+}
+
+.catpfp{
+  width:10vw;
+}
+
+
   .blogcenter {
-    background-color: rgb(207, 207, 207);
-    width: 74%;
+    width: 100%;
   }
+
+  
