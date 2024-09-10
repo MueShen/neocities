@@ -1,40 +1,75 @@
 .body{
-  padding:0px;
+  width:99vw;
+  padding: 0.1% ;
+  background-color: #1d0c04;
+  overflow-x: hidden;
 }
 .blog_container {
     position: absolute;
     top: 15vh;
     left:11.5vw;
-    width: 75.8%;
-    min-height: 80%;
+    width: 72.8%;
+    height: fit-content;
+    min-height: 72%;
+
     border-style: solid;
+    border-color: rgb(112, 112, 112);
+    border-width: 2.2vw;
+    border-image: url(img/bw.png) 17% round;
+
     margin-left: 3px;
     margin-right: 3px;
 
     display: block;
     align-items: center;
     justify-content: center;
-    padding:1%;
+ 
+
+    background-color: rgb(165, 122, 94);
+    overflow-x: hidden;
+    font-size: 1vw;
   }
  
+ .blogembed{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  font-size: 1vw;
+ }
+
+
+
+.buttonable:hover{
+  color:#bd9981;
+}
+
 .header {
     position: absolute;
     left:0%;
     top: 0px;
     width: 100%;
-    height: 15vh;
+    height: 50vh;
     padding: 0px;
-    background-image: url("img/header_forest2.jpg");
+    background-image: url("img/minecraft_hut.png");
     background-size: 100% auto;
     font-family: 'Endor', sans-serif;
-    font-size: 8vh;
+    font-size: 4vw;
     text-align: center;
+    color:#ee9c66;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #1d0c04;
   }
 
 
-
+.smaller{
+ background-color: rgba(66, 38, 85, 0.336);
+ font-size: 0.6vw !important;
+ line-height: 0.01vh;
+}
 .left_container {
   position: absolute;
+  height: 56vh;
   left:0.3vw;
   margin-right:3px;
   top: 2vh;
@@ -42,7 +77,7 @@
   padding: 0px;
   border-style: solid;
   text-align: center;
-  background-color: rgba(61, 60, 65, 0.884);
+  background-color: rgba(203, 198, 221, 0.582);
 }
 
 .pfp_text{
@@ -52,7 +87,7 @@
 }
 
 .pfp_subtext{
-  font-size: small;
+  font-size: 0.8vw;
   padding: 0px;
   position:relative;
   top: -0.5vh;
@@ -69,16 +104,18 @@
   padding: 0px;
   border-style: solid;
   line-height: 250%;
-  font-size: 1.8vh;
+  font-size: 0.9vw;
+  background-color: rgb(165, 122, 94);
 }
 
 .catpfp{
   width:10vw;
 }
 
-
-  .blogcenter {
-    width: 100%;
-  }
-
+.chatpopup{
+  position: absolute;
+  background-color: white;
+  width: 20vw;
+  height: 30vw;
+}
   
