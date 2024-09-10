@@ -4,8 +4,8 @@
 .blog_container {
     position: absolute;
     top: 15vh;
-    left:10%;
-    width: 77.8%;
+    left:11.5vw;
+    width: 75.8%;
     min-height: 80%;
     border-style: solid;
     margin-left: 3px;
@@ -39,14 +39,30 @@
 
 .left_container {
   position: absolute;
-  left:0%;
+  left:0.3vw;
   margin-right:3px;
-  top: 15vh;
-  width: 9.9%;
+  top: 2vh;
+  width: 10.7vw;
   padding: 0px;
   border-style: solid;
   text-align: center;
+  background-color: rgba(61, 60, 65, 0.884);
 }
+
+.pfp_text{
+  font-family: 'Endor', sans-serif;
+  padding-bottom: 0px;
+  line-height: 0%;
+}
+
+.pfp_subtext{
+  font-size: small;
+  padding: 0px;
+  position:relative;
+  top: -0.5vh;
+}
+
+
 
 .right_container {
   position: absolute;
