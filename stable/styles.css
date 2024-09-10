@@ -113,9 +113,9 @@
 }
 
 .chatpopup{
-  position: absolute;
-  background-color: white;
+  display: none;
+  position: fixed;
+  top: 45vh;
   width: 20vw;
-  height: 30vw;
 }
   
