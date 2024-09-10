@@ -17,6 +17,26 @@
     padding:1%;
   }
  
+.header {
+    position: absolute;
+    left:0%;
+    top: 0px;
+    width: 100%;
+    height: 15vh;
+    padding: 0px;
+    background-image: url("img/header_forest2.jpg");
+    background-size: 100% auto;
+    
+  }
+
+
+.head_txt{
+  font-family: 'Endor', sans-serif;
+  text-align:  center;
+  margin-top: 7.5vh;
+  font-size: 35pt;
+}
+
 .left_container {
   position: absolute;
   left:0%;
@@ -25,6 +45,7 @@
   width: 9.9%;
   padding: 0px;
   border-style: solid;
+  text-align: center;
 }
 
 .right_container {
